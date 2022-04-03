@@ -1,0 +1,5 @@
+# Node modules
+node_modules
+
+# Bot Token
+config.json
