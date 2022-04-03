@@ -1,0 +1,5 @@
+{
+    "token": "YOUR BOT TOKEN HERE",
+    "create-channel-id": "CHANNEL ID TO CREATE THINGS HERE",
+    "list-channel-id": "CHANNEL ID TO POST PARTY LISTINGS HERE"
+}

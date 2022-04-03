@@ -2,8 +2,8 @@
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 const { Modal, TextInputComponent, showModal } = require('discord-modals');
 
-const gamemodes = require('./gamemodes.json');
-const config = require('./config.json');
+const gamemodes = require('../config/gamemodes.json');
+const config = require('../config/config.json');
 
 // create party boilerplate for embed message
 function createEmbed(){

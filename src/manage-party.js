@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
-const config = require('./config.json');
+const config = require('../config/config.json');
 
 function partyManageEmbed(){
     let manageEmbed = new MessageEmbed()
