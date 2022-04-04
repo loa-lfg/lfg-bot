@@ -1,14 +1,72 @@
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 const config = require('../config/config.json');
 
+// database.js handles all sqlite3 operations with the file backend
+const database = require('./database');
+
 function partyManageEmbed(){
     let manageEmbed = new MessageEmbed()
         .setColor('#98fc03')
         .setTitle('Manage Party')
         .setDescription('Need to make modifications to your party?')
+        .addField(
+            '**Button Explanation:**',
+            "(Undo) Finalize - Removes or re-add the listing in LFG List\n"+
+            "Kick - Forcibly removes a party member from the party\n"+
+            "Customize - Customize the title or add a description to your party\n"+
+            "Archive - Removes the listing from LFG List"
+        )
         .setThumbnail('https://i.imgur.com/nSOFQJY.png');
     return manageEmbed;
 } 
+
+function partyManageButtons(finalized = false){
+    let row = new MessageActionRow();
+
+    if (!finalized){
+        row.addComponents(
+            new MessageButton()
+                .setCustomId('finalize-party')
+                .setLabel('Finalize')
+                .setStyle('SUCCESS')
+        )
+    } else {
+        row.addComponents(
+            new MessageButton()
+                .setCustomId('undo-finalize-party')
+                .setLabel('Undo Finalize')
+                .setStyle('SECONDARY')
+        )
+    }
+    row.addComponents(
+        new MessageButton()
+            .setCustomId('kick-party')
+            .setLabel('Kick')
+            .setStyle('DANGER')
+    )
+    .addComponents(
+        new MessageButton()
+            .setCustomId('customize-party')
+            .setLabel('Customize')
+            .setStyle('PRIMARY')
+    )
+    .addComponents(
+        new MessageButton()
+            .setCustomId('archive-party')
+            .setLabel('Archive')
+            .setStyle('SECONDARY')
+    );
+    return row;
+} 
+
+function setupManageMessage(client, thread_id){
+    client.channels.cache.get(thread_id).send({
+        embeds: [partyManageEmbed()],
+        components: [partyManageButtons()]
+    }).then(message => {
+        database.updateManageIdForThread(thread_id, message.id);
+    })
+}
 
 async function handleCustomizeParty(client, interaction){
     // Interaction hack so we can retrieve dropdown menu data after the modal is submitted
@@ -62,3 +120,5 @@ async function handleModalSubmit(client, modal){
     });
     
 }
+
+module.exports.setupManageMessage = setupManageMessage;

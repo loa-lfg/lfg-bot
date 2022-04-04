@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS party_list (
 	post_id integer primary key,
 	leader_id integer not null,
 	thread_id integer not null,
+	manage_id integer,
 	gamemode_id text not null,
 	activity_id text not null,
 	num_members integer not null,

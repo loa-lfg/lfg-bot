@@ -7,7 +7,8 @@ const config = require('../config/config.json');
 
 // database.js handles all sqlite3 operations with the file backend
 const database = require('./database');
-
+// Import our other functionalities
+const manage_party = require('./manage-party');
 const { logger } = require('./logger');
 
 // create party boilerplate for embed message
@@ -190,18 +191,41 @@ async function handleActivitySelect(interaction){
 
 
 // create party embed for lfg list message
-function partyEmbed(user, gamemode_id, activity_id, title, description){
+function partyEmbed(user, gamemode_id, activity_id, title, description, members){
     let partyEmbed = new MessageEmbed()
         .setColor('#98fc03')
         .setAuthor({ 
-            name: user.username,
+            name: `${user.username} is LFG`,
             iconURL: user.displayAvatarURL({ dynamic: true })
         })
         .setTitle(title)
-        .setThumbnail('https://i.imgur.com/nSOFQJY.png');
+        .setThumbnail(gamemodes[gamemode_id]['options'][activity_id].img);
+    // Add description if there is one
     if (description) {
         partyEmbed.setDescription(description);
     }
+    // Check if there is an item level requirement
+    if ('req' in gamemodes[gamemode_id]['options'][activity_id]){
+        partyEmbed.addField(
+            `**Gamemode: ${gamemodes[gamemode_id].display}**`, 
+            `${gamemodes[gamemode_id]['options'][activity_id].display} - Item Level ${gamemodes[gamemode_id]['options'][activity_id].req}`
+        )
+    } else {
+        partyEmbed.addField(
+            `**Gamemode: ${gamemodes[gamemode_id].display}**`, 
+            `${gamemodes[gamemode_id]['options'][activity_id].display}`
+        )
+    }
+    // Gather all party members into one list
+    // Add as a field in embed
+    let party_members = "";
+    for (member of members){
+        party_members += `<@${member}>`
+    }
+    partyEmbed.addField(
+        `**Party: (${members.length}/${gamemodes[gamemode_id]['options'][activity_id].size})**`, 
+        party_members
+    )
     return partyEmbed;
 }
 
@@ -219,7 +243,7 @@ function partyButtons(){
                 .setCustomId('leave-party')
                 .setLabel('Leave')
                 .setStyle('DANGER')
-        );
+        )
     return row;
 }
 
@@ -266,23 +290,24 @@ async function handleConfirmParty(client, interaction){
 // Function to ultimately create a party
 function createParty(client, creator, gamemode_id, activity_id, title = null, description = null) {
     let members = [];
+    members.push(creator.id);
     if (title == null) {
-        title = `${creator.username}'s ${gamemodes[gamemode_id].display} - ${gamemodes[gamemode_id]['options'][activity_id].display}`;
+        title = `${gamemodes[gamemode_id]['options'][activity_id].display} - ${creator.username}'s LFG`;
     }
     client.channels.cache.get(config['list-channel-id']).send({
-        embeds: [partyEmbed(creator, gamemode_id, activity_id, title, description)],
+        embeds: [partyEmbed(creator, gamemode_id, activity_id, title, description, members)],
         components: [partyButtons()]
     }).then(message => {
-        logger.info(`LFG Message ${message.id} created`);
+        logger.info(`LFG Message ${message.id} created by ${creator.username}${creator.discriminator}`);
         message.startThread({
             name: title,
             autoArchiveDuration: 1440,
             type: 'GUILD_PUBLIC_THREAD'
         }).then(thread => {
             logger.info(`LFG Thread ${thread.id} created`);
-            members.push(creator.id);
             // function signature insertParty(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json)
             database.insertParty(message.id, creator.id, thread.id, gamemode_id, activity_id, members.length, title, description, JSON.stringify(members));
+            manage_party.setupManageMessage(client, thread.id);
         })
     })
 }

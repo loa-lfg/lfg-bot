@@ -3,31 +3,31 @@
       "options": {  
          "armored_nacrasena": {
             "req": 1340,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Armored Nacrasena"
          },
          "igrexion": {
             "req": 1355,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Igrexion"
          },
          "night_fox_yoho": {
             "req": 1370,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Night Fox Yoho"
          },
          "velganos": {
             "req": 1385,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Velganos"
          },
          "other": {
             "req": 0,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Other"
          }
@@ -38,37 +38,37 @@
       "options": {  
          "ancient_elveria": {
             "req": 302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Ancient Elveria"
          },
          "phantom_palace": {
             "req": 460,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Phantom Palace"
          },
          "ark_of_arrogance": {
             "req": 600,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Ark of Arrogance"
          },
          "gate_of_paradise": {
             "req": 960,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 8,
             "display": "Gate of Paradise"
          },
          "orehas_well_normal": {
             "req": 1340,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Oreha's Well (Normal - 1340)"
          },
          "orehas_well_hard": {
             "req": 1370,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Oreha's Well (Hard - 1370)"
          }
@@ -79,19 +79,19 @@
       "options": { 
          "argos_p1": {
             "req": 1370,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 8,
             "display": "Argos P1"
          },
          "argos_p2": {
             "req": 1385,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 8,
             "display": "Argos P1+P2"
          },
          "argos_p3": {
             "req": 1400,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 8,
             "display": "Argos P1+P2+P3"
          }
@@ -102,19 +102,19 @@
       "options": {
          "cube_t1": {
             "req": 302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Cube (T1)"
          },
          "cube_t2": {
             "req": 802,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Elite Cube (T2)"
          },
          "cube_t3": {
             "req": 1302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Dimensional Cube (T3)"
          }
@@ -125,13 +125,13 @@
       "options": {
          "boss_rush_t2": {
             "req": 802,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Hall of Silence (T2)"
          },
          "boss_rush_t3": {
             "req": 1302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Hall of the Sun (T3)"
          }
@@ -142,13 +142,13 @@
       "options": {
          "nahuns_domain": {
             "req": 250,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Nahun's Domain (Mining/Foraging/Logging)"
          },
          "old_yudian_canal": {
-            "req": 1302,
-            "img": "insert image",
+            "req": 250,
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Old Yudian Canal (Fishing/Excavation/Hunting)"
          }
@@ -158,34 +158,44 @@
    "other": {
       "options": {
          "map_share": {
-            "req": 0,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Map Share"
          },
          "chaos_dungeon": {
-            "req": 0,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Chaos Dungeon"
          },
          "islands": {
-            "req": 302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Islands"
          },
          "events": {
-            "req": 302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 4,
             "display": "Events"
          },
          "pvp": {
-            "req": 302,
-            "img": "insert image",
+            "img": "https://i.imgur.com/nSOFQJY.png",
             "size": 3,
             "display": "Proving Grounds"
+         },
+         "other_4": {
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 4,
+            "display": "4 Player Activity"
+         },
+         "other_6": {
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 6,
+            "display": "6 Player Activity"
+         },
+         "other_8": {
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 8,
+            "display": "8 Player Activity"
          }
       },
       "display": "Others"

@@ -32,13 +32,22 @@ function initializeDatabase(){
 }
 
 function insertParty(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json){
-    let stmt = db.prepare("INSERT INTO party_list VALUES (?,?,?,?,?,?,?,?,?)");
+    let stmt = db.prepare(`INSERT INTO party_list 
+        (post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members)
+        VALUES (?,?,?,?,?,?,?,?,?)
+    `);
     stmt.run(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json)
     stmt.finalize();
 }
 
-function getPartyMembers(post_id){
-    let stmt = db.prepare("SELECT * FROM party_list WHERE post_id = ?");
+function updateManageIdForThread(thread_id, manage_id){
+    let stmt = db.prepare("UPDATE party_list SET manage_id = ? WHERE thread_id = ?");
+    stmt.run(manage_id, thread_id)
+    stmt.finalize();
+}
+
+function getPartyInfo(post_id){
+    let stmt = db.prepare("SELECT * FROM party_list WHERE post_id = ? LIMIT 1");
     let result = stmt.get(post_id);
     return result;
 }
@@ -76,3 +85,4 @@ db.serialize(() => {
 logger.info("Database connected");
 
 module.exports.insertParty = insertParty;
+module.exports.updateManageIdForThread = updateManageIdForThread;
