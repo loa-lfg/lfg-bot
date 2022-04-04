@@ -5,6 +5,11 @@ const { Modal, TextInputComponent, showModal } = require('discord-modals');
 const gamemodes = require('../config/gamemodes.json');
 const config = require('../config/config.json');
 
+// database.js handles all sqlite3 operations with the file backend
+const database = require('./database');
+
+const { logger } = require('./logger');
+
 // create party boilerplate for embed message
 function createEmbed(){
     party_types = '';
@@ -185,19 +190,15 @@ async function handleActivitySelect(interaction){
 
 
 // create party embed for lfg list message
-function partyEmbed(user, gamemode_id, activity_id, title = null, description = null){
+function partyEmbed(user, gamemode_id, activity_id, title, description){
     let partyEmbed = new MessageEmbed()
         .setColor('#98fc03')
         .setAuthor({ 
             name: user.username,
             iconURL: user.displayAvatarURL({ dynamic: true })
         })
+        .setTitle(title)
         .setThumbnail('https://i.imgur.com/nSOFQJY.png');
-    if (title) {
-        partyEmbed.setTitle(title);
-    } else {
-        partyEmbed.setTitle(`${gamemodes[gamemode_id].display} - ${gamemodes[gamemode_id]['options'][activity_id].display}`);
-    }
     if (description) {
         partyEmbed.setDescription(description);
     }
@@ -264,10 +265,26 @@ async function handleConfirmParty(client, interaction){
 
 // Function to ultimately create a party
 function createParty(client, creator, gamemode_id, activity_id, title = null, description = null) {
+    let members = [];
+    if (title == null) {
+        title = `${creator.username}'s ${gamemodes[gamemode_id].display} - ${gamemodes[gamemode_id]['options'][activity_id].display}`;
+    }
     client.channels.cache.get(config['list-channel-id']).send({
         embeds: [partyEmbed(creator, gamemode_id, activity_id, title, description)],
         components: [partyButtons()]
-    });
+    }).then(message => {
+        logger.info(`LFG Message ${message.id} created`);
+        message.startThread({
+            name: title,
+            autoArchiveDuration: 1440,
+            type: 'GUILD_PUBLIC_THREAD'
+        }).then(thread => {
+            logger.info(`LFG Thread ${thread.id} created`);
+            members.push(creator.id);
+            // function signature insertParty(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json)
+            database.insertParty(message.id, creator.id, thread.id, gamemode_id, activity_id, members.length, title, description, JSON.stringify(members));
+        })
+    })
 }
 
 module.exports.handleSetup = handleSetup;
