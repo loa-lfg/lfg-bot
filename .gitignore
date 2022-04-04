@@ -6,3 +6,6 @@ config.json
 
 # Database
 database.db
+
+# Log files
+log
