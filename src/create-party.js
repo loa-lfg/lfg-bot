@@ -1,7 +1,4 @@
-// at the top of your file
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
-const { Modal, TextInputComponent, showModal } = require('discord-modals');
-
 const gamemodes = require('../config/gamemodes.json');
 const config = require('../config/config.json');
 
@@ -137,7 +134,7 @@ async function handleCreateParty(interaction){
 async function handleGamemodeSelect(interaction){
     // at this point the user should have chosen a gamemode
     // let's fetch their answer
-    let gamemode_id = interaction.values[0];
+    const gamemode_id = interaction.values[0];
     const gamemode_row = new MessageActionRow()
         .addComponents(
             new MessageSelectMenu()
@@ -188,8 +185,6 @@ async function handleActivitySelect(interaction){
     });
 }
 
-
-
 // create party embed for lfg list message
 function partyEmbed(user, gamemode_id, activity_id, title, description, members){
     let partyEmbed = new MessageEmbed()
@@ -220,7 +215,7 @@ function partyEmbed(user, gamemode_id, activity_id, title, description, members)
     // Add as a field in embed
     let party_members = "";
     for (member of members){
-        party_members += `<@${member}>`
+        party_members += `<@${member}> `
     }
     partyEmbed.addField(
         `**Party: (${members.length}/${gamemodes[gamemode_id]['options'][activity_id].size})**`, 
@@ -275,7 +270,7 @@ function getGamemodeAndActivityFromEmbed(embed){
 async function handleConfirmParty(client, interaction){
     options = getGamemodeAndActivityFromEmbed(interaction.message.embeds[0])
     createParty(client, interaction.user, options.gamemode_id, options.activity_id);
-    await interaction.deferUpdate();
+    await interaction.deferUpdate({ ephemeral: true });
 
     let message = `Your LFG request has been posted at <#${config['list-channel-id']}>\n` +
                     "You may now dismiss this message";
@@ -298,7 +293,7 @@ function createParty(client, creator, gamemode_id, activity_id, title = null, de
         embeds: [partyEmbed(creator, gamemode_id, activity_id, title, description, members)],
         components: [partyButtons()]
     }).then(message => {
-        logger.info(`LFG Message ${message.id} created by ${creator.username}${creator.discriminator}`);
+        logger.info(`LFG Message ${message.id} created by ${creator.username}${creator.discriminator}(${creator.id})`);
         message.startThread({
             name: title,
             autoArchiveDuration: 1440,
@@ -308,12 +303,69 @@ function createParty(client, creator, gamemode_id, activity_id, title = null, de
             // function signature insertParty(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json)
             database.insertParty(message.id, creator.id, thread.id, gamemode_id, activity_id, members.length, title, description, JSON.stringify(members));
             manage_party.setupManageMessage(client, thread.id);
+            thread.members.add(creator.id);
         })
     })
 }
 
-module.exports.handleSetup = handleSetup;
-module.exports.handleCreateParty = handleCreateParty;
-module.exports.handleGamemodeSelect = handleGamemodeSelect;
-module.exports.handleActivitySelect = handleActivitySelect;
-module.exports.handleConfirmParty = handleConfirmParty;
+// function to refresh party listing embed
+// THIS FUNCTION EXPECTS A DISCORD JS GUILD OBJECT
+async function refreshPartyEmbed(client, post_id, interaction){
+    const data = await database.getPartyInfoFromPostId(post_id);
+    const channel = client.channels.cache.get(config['list-channel-id']);
+    const message = await channel.messages.fetch(post_id);
+    // if the creator still exists in the discord guild
+    interaction.guild.members.fetch(data.leader_id)
+        .then((creator) => {
+            message.edit({
+                embeds: [partyEmbed(creator.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
+            })
+        }).catch((err) => {
+            // Oh no, the member has already left, we should use whoever interacted with this to finish out
+            message.edit({
+                embeds: [partyEmbed(interaction.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
+            })
+        });
+}
+
+// Function to initialize handlers for events
+function setupEventListeners(client){
+    // Message processing
+    client.on('messageCreate', (message) => {
+        // Check if message created by bot
+        if (message.author.bot) return;
+
+        // Check if it is in the right channel
+        if (message.channelId == config['create-channel-id'] && message.content == '!setup') {
+            handleSetup(client, message);
+        };
+    });
+
+    // Interaction dropdown menu processing
+    client.on('interactionCreate', interaction => {
+        if (!interaction.isSelectMenu()) return;
+
+        if (interaction.customId == 'gamemode-select'){
+            handleGamemodeSelect(interaction);
+        } else if (interaction.customId == 'activity-select'){
+            handleActivitySelect(interaction);
+        }
+    });
+
+    // Interaction button processing
+    client.on('interactionCreate', async interaction => {
+        // We ignore everything that isn't a button press
+        if (!interaction.isButton()) return;
+
+        if (interaction.customId == 'create-party'){
+            handleCreateParty(interaction);
+        } else if (interaction.customId == 'confirm-party') {
+            handleConfirmParty(client, interaction);
+        }
+    });
+}
+
+module.exports.setupEventListeners = setupEventListeners;
+module.exports.refreshPartyEmbed = refreshPartyEmbed;
+module.exports.partyEmbed = partyEmbed;
+module.exports.partyButtons = partyButtons;
