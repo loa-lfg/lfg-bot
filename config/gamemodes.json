@@ -3,25 +3,25 @@
       "options": {  
          "armored_nacrasena": {
             "req": 1340,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/3dmMjzE",
             "size": 4,
             "display": "Armored Nacrasena"
          },
          "igrexion": {
             "req": 1355,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/HFrA2wC",
             "size": 4,
             "display": "Igrexion"
          },
          "night_fox_yoho": {
             "req": 1370,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/MRMGRxZ",
             "size": 4,
             "display": "Night Fox Yoho"
          },
          "velganos": {
             "req": 1385,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/flTIKCz",
             "size": 4,
             "display": "Velganos"
          },
@@ -38,37 +38,37 @@
       "options": {  
          "ancient_elveria": {
             "req": 302,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/nELN9cR",
             "size": 4,
             "display": "Ancient Elveria"
          },
          "phantom_palace": {
             "req": 460,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/UDdwnpo",
             "size": 4,
             "display": "Phantom Palace"
          },
          "ark_of_arrogance": {
             "req": 600,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/dJbNy7c",
             "size": 4,
             "display": "Ark of Arrogance"
          },
          "gate_of_paradise": {
             "req": 960,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/7vnIJ6h",
             "size": 8,
             "display": "Gate of Paradise"
          },
          "orehas_well_normal": {
             "req": 1340,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/GQ9r2ku",
             "size": 4,
             "display": "Oreha's Well (Normal - 1340)"
          },
          "orehas_well_hard": {
             "req": 1370,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/t3q9XE4",
             "size": 4,
             "display": "Oreha's Well (Hard - 1370)"
          }
@@ -79,19 +79,19 @@
       "options": { 
          "argos_p1": {
             "req": 1370,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/9zWejqS",
             "size": 8,
             "display": "Argos P1"
          },
          "argos_p2": {
             "req": 1385,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/cy6Ic9A",
             "size": 8,
             "display": "Argos P1+P2"
          },
          "argos_p3": {
             "req": 1400,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/6Eo9E6w",
             "size": 8,
             "display": "Argos P1+P2+P3"
          }
@@ -102,19 +102,19 @@
       "options": {
          "cube_t1": {
             "req": 302,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/8sc6GB8",
             "size": 4,
             "display": "Cube (T1)"
          },
          "cube_t2": {
             "req": 802,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/osbzW7m",
             "size": 4,
             "display": "Elite Cube (T2)"
          },
          "cube_t3": {
             "req": 1302,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/O3hI8of",
             "size": 4,
             "display": "Dimensional Cube (T3)"
          }
@@ -125,13 +125,13 @@
       "options": {
          "boss_rush_t2": {
             "req": 802,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/6aYG6yG",
             "size": 4,
             "display": "Hall of Silence (T2)"
          },
          "boss_rush_t3": {
             "req": 1302,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/ulseGJk",
             "size": 4,
             "display": "Hall of the Sun (T3)"
          }
@@ -142,13 +142,13 @@
       "options": {
          "nahuns_domain": {
             "req": 250,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/MB8o2RN",
             "size": 4,
             "display": "Nahun's Domain (Mining/Foraging/Logging)"
          },
          "old_yudian_canal": {
             "req": 250,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/MB8o2RN",
             "size": 4,
             "display": "Old Yudian Canal (Fishing/Excavation/Hunting)"
          }
