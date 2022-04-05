@@ -2,10 +2,10 @@
 Creates the party list table
 **/
 CREATE TABLE IF NOT EXISTS party_list (
-	post_id integer primary key,
-	leader_id integer not null,
-	thread_id integer not null,
-	manage_id integer,
+	post_id text primary key,
+	leader_id text not null,
+	thread_id text unique not null,
+	manage_id text unique,
 	gamemode_id text not null,
 	activity_id text not null,
 	num_members integer not null,
@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS party_list (
 Creates the notify list table of user_id and activity_id pairs
 **/
 CREATE TABLE IF NOT EXISTS notify_list (
-	user_id integer,
-	activity_id integer,
+	user_id text,
+	activity_id text,
 	primary key(user_id, activity_id)
 );
 /** STATEMENT SPLIT **/
@@ -29,9 +29,11 @@ CREATE TABLE IF NOT EXISTS notify_list (
 Creates the clean up check table so we can remind users to delete the party once they are done
 **/
 CREATE TABLE IF NOT EXISTS cleanup_check (
-	post_id integer primary key,
+	post_id text primary key,
 	last_update datetime not null default(CURRENT_TIMESTAMP),
 	foreign key(post_id) references party_list(post_id)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 /** STATEMENT SPLIT **/
 

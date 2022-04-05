@@ -17,50 +17,11 @@ const manage_party = require('./src/manage-party');
 const { logger } = require('./src/logger');
 
 client.once('ready', () => {
+    create_party.setupEventListeners(client);
+    logger.info(`Create Party event listeners setup complete`);
+    manage_party.setupEventListeners(client);
+    logger.info(`Manage Party event listeners setup complete`);
     logger.info(`Lost Ark LFG is ready! Create channel: ${config['create-channel-id']}, List channel ${config['list-channel-id']}`)
-});
-
-// Message processing
-client.on('messageCreate', (message) => {
-    // Check if message created by bot
-    if (message.author.bot) return;
-
-    // Check if it is in the right channel
-    if (message.channelId == config['create-channel-id'] && message.content == '!setup') {
-        create_party.handleSetup(client, message);
-    };
-});
-
-// Interaction button processing
-client.on('interactionCreate', async interaction => {
-    // We ignore everything that isn't a button press
-	if (!interaction.isButton()) return;
-
-    if (interaction.customId == 'create-party'){
-        create_party.handleCreateParty(interaction);
-    } else if (interaction.customId == 'confirm-party') {
-        create_party.handleConfirmParty(client, interaction);
-    } else if (interaction.customId == 'customize-party'){
-        create_party.handleCustomizeParty(client, interaction);
-    } 
-});
-
-// Interaction dropdown menu processing
-client.on('interactionCreate', interaction => {
-	if (!interaction.isSelectMenu()) return;
-
-    if (interaction.customId == 'gamemode-select'){
-        create_party.handleGamemodeSelect(interaction);
-    } else if (interaction.customId == 'activity-select'){
-        create_party.handleActivitySelect(interaction);
-    }
-});
-
-// Modal submission processing
-client.on('modalSubmit', async (modal) => {
-    if(modal.customId == 'create-party-modal'){
-        create_party.handleModalSubmit(client, modal);
-    }
 });
 
 client.login(config.token);
