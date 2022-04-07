@@ -482,10 +482,9 @@ async function handleKickSelection(client, interaction){
         if (member_list.includes(kick_selection)){
             const new_members = members.filter(member => member != kick_selection);
             // Send a ping in the party thread
-            const channel = client.channels.cache.get(thread_id);
-            channel.send(`<@${kick_selection}> has been kicked by ${interaction.user} from the party!`);
+            const thread = client.channels.cache.get(thread_id);
+            thread.send(`<@${kick_selection}> has been kicked by ${interaction.user} from the party!`);
             // Remove said person from the thread
-            const thread = channel.threads.cache.get(thread_id);
             thread.members.remove(kick_selection);
             // Update the database with the change
             database.updatePartyMembers(party_info.post_id, new_members.length, JSON.stringify(new_members));
