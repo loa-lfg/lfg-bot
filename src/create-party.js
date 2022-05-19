@@ -308,12 +308,42 @@ function createParty(client, creator, gamemode_id, activity_id, title = null, de
     })
 }
 
+// refactored version of createParty function using awaits
+async function createParty2(client, creator, gamemode_id, activity_id, title = null, description = null) {
+    let members = [];
+    members.push(creator.id);
+    if (title == null) {
+        title = `${gamemodes[gamemode_id]['options'][activity_id].display} - ${creator.username}'s LFG`;
+    }
+    const message =  await client.channels.cache.get(config['list-channel-id']).send({
+        embeds: [partyEmbed(creator, gamemode_id, activity_id, title, description, members)],
+        components: [partyButtons()]
+    });
+    logger.info(`LFG Message ${message.id} created by ${creator.username}${creator.discriminator}(${creator.id})`);
+    const thread = await message.startThread({
+        name: title,
+        autoArchiveDuration: 1440,
+        type: 'GUILD_PUBLIC_THREAD'
+    });
+    logger.info(`LFG Thread ${thread.id} created`);
+    // function signature insertParty(post_id, leader_id, thread_id, gamemode_id, activity_id, num_members, party_title, party_desc, members_json)
+    database.insertParty(message.id, creator.id, thread.id, gamemode_id, activity_id, members.length, title, description, JSON.stringify(members));
+    manage_party.setupManageMessage(client, thread.id);
+    thread.members.add(creator.id);
+}
+
 // function to refresh party listing embed
 // THIS FUNCTION EXPECTS A DISCORD JS GUILD OBJECT
 async function refreshPartyEmbed(client, post_id, interaction){
     const data = await database.getPartyInfoFromPostId(post_id);
     const channel = client.channels.cache.get(config['list-channel-id']);
-    const message = await channel.messages.fetch(post_id);
+    const message = await channel.messages.fetch(post_id)
+        .catch((err) => {
+            // FIXME:
+            // kicking from a full party which has been removed from the listings creates an error
+            // potential solution to only update non-full parties
+            // otherwise relist with existing data?
+        });
     // if the creator still exists in the discord guild
     interaction.guild.members.fetch(data.leader_id)
         .then((creator) => {

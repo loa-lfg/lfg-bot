@@ -98,6 +98,23 @@
       },
       "display": "Abyss Raid"
    },
+   "legion_raid": {
+      "options": {
+         "valtan_normal": {
+            "req": 1415,
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 8,
+            "display": "Valtan (Normal - 1415)"
+         },
+         "valtan_hard": {
+            "req": 1445,
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 8,
+            "display": "Valtan (Hard - 1445)"
+         }
+      },
+      "display": "Legion Raid"
+   },
    "cube": {
       "options": {
          "cube_t1": {
