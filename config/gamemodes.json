@@ -64,13 +64,13 @@
             "req": 1340,
             "img": "https://i.imgur.com/GQ9r2ku.png",
             "size": 4,
-            "display": "Oreha's Well (Normal - 1340)"
+            "display": "Oreha's Well (Normal)"
          },
          "orehas_well_hard": {
             "req": 1370,
             "img": "https://i.imgur.com/t3q9XE4.png",
             "size": 4,
-            "display": "Oreha's Well (Hard - 1370)"
+            "display": "Oreha's Well (Hard)"
          }
       },
       "display": "Abyssal Dungeons"
@@ -102,15 +102,15 @@
       "options": {
          "valtan_normal": {
             "req": 1415,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.imgur.com/worrU2o.png",
             "size": 8,
-            "display": "Valtan (Normal - 1415)"
+            "display": "Valtan (Normal)"
          },
          "valtan_hard": {
             "req": 1445,
-            "img": "https://i.imgur.com/nSOFQJY.png",
+            "img": "https://i.redd.it/0ideoq3grp191.gif",
             "size": 8,
-            "display": "Valtan (Hard - 1445)"
+            "display": "Valtan (Hard)"
          }
       },
       "display": "Legion Raid"
