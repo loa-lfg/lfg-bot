@@ -28,7 +28,7 @@ function partyManageEmbed(){
                 value: "Customize the title or add a description to your party"
             },
             {
-                name: "Archive",
+                name: "End Party",
                 value: "Removes the listing from LFG List"
             }
         )
@@ -69,7 +69,7 @@ function partyManageButtons(finalized = false){
     .addComponents(
         new MessageButton()
             .setCustomId(`archive-party`)
-            .setLabel('Archive')
+            .setLabel('End Party')
             .setStyle('SECONDARY')
     );
     return row;
@@ -553,8 +553,34 @@ async function handleRelist(client, interaction){
     }
 }
 
+async function handleManage(client, message){
+    const thread_id = message.channelId;
+    // check if user is the creator of the party or if they are an admin
+    let party_info = await database.getPartyInfoFromThreadId(thread_id);
+    if (party_info != null){
+        if (message.member.user.id != party_info.leader_id && !message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)){
+            await message.reply({ ephemeral: true, 
+                content: 'You do not have permissions to do this.'});
+        } else {
+            await message.reply({ ephemeral: false, 
+                content: `Manage Party: https://discord.com/channels/${message.guild.id}/${thread_id}/${party_info.manage_id}`});
+        }
+    }
+}
+
 // Function to initialize handlers for events
 function setupEventListeners(client){
+    // Message processing
+    client.on('messageCreate', (message) => {
+        // Check if message created by bot
+        if (message.author.bot) return;
+
+        // Check if it is in the right channel
+        if (message.content == '!manage') {
+            handleManage(client, message);
+        };
+    });
+
     // Interaction button processing
     client.on('interactionCreate', async interaction => {
         // We ignore everything that isn't a button press

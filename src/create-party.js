@@ -337,24 +337,23 @@ async function createParty2(client, creator, gamemode_id, activity_id, title = n
 async function refreshPartyEmbed(client, post_id, interaction){
     const data = await database.getPartyInfoFromPostId(post_id);
     const channel = client.channels.cache.get(config['list-channel-id']);
-    const message = await channel.messages.fetch(post_id)
+    await channel.messages.fetch(post_id)
+        .then((msg) => {
+            // If the post still exists in the lfg channel
+            interaction.guild.members.fetch(data.leader_id)
+                .then((creator) => {
+                    msg.edit({
+                        embeds: [partyEmbed(creator.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
+                    })
+                }).catch((err) => {
+                    // Oh no, the member has already left, we should use whoever interacted with this to finish out
+                    msg.edit({
+                        embeds: [partyEmbed(interaction.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
+                    })
+                });
+        })
         .catch((err) => {
-            // FIXME:
-            // kicking from a full party which has been removed from the listings creates an error
-            // potential solution to only update non-full parties
-            // otherwise relist with existing data?
-        });
-    // if the creator still exists in the discord guild
-    interaction.guild.members.fetch(data.leader_id)
-        .then((creator) => {
-            message.edit({
-                embeds: [partyEmbed(creator.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
-            })
-        }).catch((err) => {
-            // Oh no, the member has already left, we should use whoever interacted with this to finish out
-            message.edit({
-                embeds: [partyEmbed(interaction.user, data.gamemode_id, data.activity_id, data.party_title, data.party_desc, JSON.parse(data.members))],
-            })
+            logger.info(`Attempted to update a listing message (${post_id}) that no longer exists`);
         });
 }
 
