@@ -105,6 +105,11 @@ async function handleCustomizeParty(client, interaction){
     const party_info = await database.getPartyInfoFromThreadId(thread_id);
     //logger.info(`Current user: ${interaction.user.username}${interaction.user.discriminator}(${interaction.user.id}), Party Leader: ${party_info.leader_id}`);
     //logger.info(`Current has permission to manage message: ${interaction.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)}`);
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     if (interaction.user.id != party_info.leader_id && !interaction.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)){
         await interaction.reply({ ephemeral: true, 
             content: 'You do not have permissions to customize this.'});
@@ -147,6 +152,11 @@ async function handleCustomizeSubmit(client, modal){
     const party_info = await database.getPartyInfoFromThreadId(thread_id);
     //logger.info(`Current user: ${modal.user.username}${modal.user.discriminator}(${modal.user.id}), Party Leader: ${party_info.leader_id}`);
     //logger.info(`Current has permission to manage message: ${modal.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)}`);
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     if (modal.user.id != party_info.leader_id && !modal.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)){
         await modal.deferReply({ ephemeral: true });
         modal.followUp({ content: 'You do not have permissions to customize this.', ephemeral: true });
@@ -211,6 +221,12 @@ async function handleArchiveParty(client, interaction){
     console.log(thread_id);
     // check if user is the creator of the party or if they are an admin
     let party_info = await database.getPartyInfoFromThreadId(thread_id);
+    // check if data exists, if it doesn't, return
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     if (interaction.user.id != party_info.leader_id && !interaction.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)){
         await interaction.reply({ ephemeral: true, 
             content: 'You do not have permissions to do this.'});
@@ -349,6 +365,11 @@ async function handleJoinParty(client, interaction){
     await interaction.deferReply({ ephemeral: true});
     const post_id = interaction.message.id;
     const party_info = await database.getPartyInfoFromPostId(post_id);
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     const members = JSON.parse(party_info.members);
     if (members.includes(interaction.user.id)){
         await interaction.editReply({
@@ -386,6 +407,11 @@ async function handleLeaveParty(client, interaction){
     await interaction.deferReply({ ephemeral: true});
     const post_id = interaction.message.id;
     const party_info = await database.getPartyInfoFromPostId(post_id);
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     const members = JSON.parse(party_info.members);
     if (party_info.leader_id == interaction.user.id) {
         await interaction.editReply({
@@ -438,6 +464,11 @@ async function handleKickButton(client, interaction){
     const thread_id = interaction.message.channelId;
     // check if user is the creator of the party or if they are an admin
     let party_info = await database.getPartyInfoFromThreadId(thread_id);
+    if (!party_info){
+        await interaction.reply({ ephemeral: true, 
+            content: 'It seems like this party no longer exists in the database, I can no longer perform this action'});
+        return;
+    }
     if (interaction.user.id != party_info.leader_id && !interaction.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)){
         await interaction.editReply({ ephemeral: true, 
             content: 'You do not have permissions to kick.'});
