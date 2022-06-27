@@ -111,6 +111,18 @@
             "img": "https://i.redd.it/0ideoq3grp191.gif",
             "size": 8,
             "display": "Valtan (Hard)"
+         },
+         "vykas_normal": {
+            "req": 1430,
+            "img": "https://i.imgur.com/nSOFQJY.png",
+            "size": 8,
+            "display": "Vykas (Normal)"
+         },
+         "vykas_hard": {
+            "req": 1460,
+            "img": "https://i.redd.it/dw4xef6skn491.gif",
+            "size": 8,
+            "display": "Vykas (Hard)"
          }
       },
       "display": "Legion Raid"
